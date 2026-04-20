@@ -736,3 +736,25 @@ input:focus {
     font-size: 0.8rem;
     color: var(--text3);
 }
+
+/* --- BOTTONE LINGUA --- */
+#lang-toggle {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    height: 38px;
+    padding: 0 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.15s;
+}
+
+#lang-toggle:hover { 
+    background: rgba(255,255,255,0.28); 
+    transform: scale(1.05); 
+}

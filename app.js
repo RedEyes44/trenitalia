@@ -36,6 +36,108 @@ const API_BASE_URL = "http://www.viaggiatreno.it/infomobilita/resteasy/viaggiatr
 let stazioneCorrenteId = '';
 let stazioneCorrenteNome = '';
 
+const langToggleBtn = document.getElementById('lang-toggle');
+let currentLang = localStorage.getItem('lingua') || 'it';
+
+// Dizionario di sicurezza nel caso l'endpoint language/{lingua} fallisca
+const fallbackDict = {
+    it: {
+        loading: "Caricamento...",
+        news_live: "NEWS LIVE",
+        loading_news: "Caricamento notizie...",
+        search_station: "Cerca Stazione",
+        placeholder_station: "Es. Milano Centrale...",
+        delay_alert: "Avvisami se il ritardo supera:",
+        search_train: "Cerca Treno Diretto",
+        placeholder_train: "Es. 9650...",
+        btn_search_path: "Cerca Percorso",
+        weather_city: "Meteo Città",
+        placeholder_weather: "Es. Ceggia, Milano...",
+        btn_search_weather: "Cerca Meteo",
+        departures: "Partenze",
+        arrivals: "Arrivi",
+        train_detail: "Dettaglio Treno",
+        trains_traveling: "treni in viaggio",
+        on_time: "In orario",
+        from: "Da:",
+        to: "Per:",
+        delay_warn: "⚠️ Attenzione: ci sono treni in forte ritardo!"
+    },
+    en: {
+        loading: "Loading...",
+        news_live: "LIVE NEWS",
+        loading_news: "Loading news...",
+        search_station: "Search Station",
+        placeholder_station: "E.g. Rome Termini...",
+        delay_alert: "Alert me if delay exceeds:",
+        search_train: "Search Direct Train",
+        placeholder_train: "E.g. 9650...",
+        btn_search_path: "Search Route",
+        weather_city: "City Weather",
+        placeholder_weather: "E.g. Rome, Milan...",
+        btn_search_weather: "Get Weather",
+        departures: "Departures",
+        arrivals: "Arrivals",
+        train_detail: "Train Details",
+        trains_traveling: "active trains",
+        on_time: "On time",
+        from: "From:",
+        to: "To:",
+        delay_warn: "⚠️ Warning: some trains are experiencing severe delays!"
+    }
+};
+
+let translations = fallbackDict[currentLang];
+
+// Funzione core per scaricare e applicare la lingua
+async function applicaLingua(lang) {
+    currentLang = lang;
+    localStorage.setItem('lingua', lang);
+    langToggleBtn.textContent = lang === 'it' ? '🇬🇧 EN' : '🇮🇹 IT';
+
+    // 1. Proviamo a usare l'endpoint
+    try {
+        const response = await fetch(`${API_BASE_URL}/language/${lang}`);
+        if(response.ok) {
+            translations = await response.json();
+        } else {
+            translations = fallbackDict[lang]; // Fallback
+        }
+    } catch(e) {
+        translations = fallbackDict[lang]; // Fallback in caso di errore di rete
+    }
+
+    // 2. Sostituiamo i testi HTML standard
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[key]) el.innerHTML = translations[key];
+    });
+
+    // 3. Sostituiamo i placeholder degli input
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (translations[key]) el.placeholder = translations[key];
+    });
+
+    // 4. Ricarichiamo i dati delle API nella nuova lingua
+    caricaNews();
+    if (weatherInput.value) aggiornaMeteo(weatherInput.value);
+    
+    // Aggiorniamo il tabellone se c'è una stazione attiva
+    if (stazioneCorrenteId) {
+        const tipo = btnPartenze.classList.contains('active') ? 'partenze' : 'arrivi';
+        caricaTabellone(tipo);
+    }
+}
+
+// Al click del bottone, invertiamo la lingua
+langToggleBtn.addEventListener('click', () => {
+    applicaLingua(currentLang === 'it' ? 'en' : 'it');
+});
+
+// Applica la lingua all'avvio
+applicaLingua(currentLang);
+
 // --- 1. RICERCA STAZIONE ---
 async function cercaStazione(testo) {
     const endpoint = `${API_BASE_URL}/autocompletaStazione/${testo}`;
@@ -310,23 +412,33 @@ trainNumberInput.addEventListener('keypress', (e) => {
 });
 
 // --- 9. BONUS: NEWS IN TEMPO REALE ---
+// --- 9. BONUS: NEWS IN TEMPO REALE ---
 async function caricaNews() {
+    // 1. Forziamo SEMPRE l'italiano per l'API, altrimenti Trenitalia non restituisce nulla
     const endpoint = `${API_BASE_URL}/news/0/it`;
+    
     try {
+        // 2. Mostriamo temporaneamente la scritta "Loading..." nella lingua corretta
+        newsContent.innerHTML = translations['loading_news'];
+        newsTicker.classList.remove('hidden');
+
         const response = await fetch(CORS_PROXY + encodeURIComponent(endpoint));
         const newsArray = await response.json();
         
         if (newsArray && newsArray.length > 0) {
-            newsTicker.classList.remove('hidden');
+            // 3. Inseriamo le notizie reali (che resteranno in italiano)
             const testoUnito = newsArray.map(news => {
                 let testoPulito = news.testo.replace(/<[^>]*>?/gm, ''); 
                 return `⚠️ ${testoPulito}`;
             }).join(' &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; ');
             
             newsContent.innerHTML = testoUnito;
+        } else {
+            newsTicker.classList.add('hidden');
         }
     } catch (error) {
         console.warn("Impossibile caricare le news in questo momento.");
+        newsTicker.classList.add('hidden');
     }
 }
 caricaNews();
@@ -424,7 +536,8 @@ async function aggiornaMeteo(citta) {
         weatherCard.classList.remove('hidden');
 
         // Effettuiamo la chiamata API a wttr.in per scaricare il clima
-        const weatherUrl = `https://wttr.in/${encodeURIComponent(citta)}?format=j1&lang=it`;
+        // Passiamo currentLang (it o en) all'endpoint wttr.in
+        const weatherUrl = `https://wttr.in/${encodeURIComponent(citta)}?format=j1&lang=${currentLang}`;
         const weatherRes = await fetch(weatherUrl);
         
         if (!weatherRes.ok) throw new Error("Città non trovata o errore API");

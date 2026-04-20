@@ -7,66 +7,65 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div id="toast-container" class="toast-container"></div>
 
     <header>
         <div class="header-content">
             <h1>LiveTreni 🚆</h1>
-            
             <div class="header-actions">
                 <span id="train-counter" class="train-counter" title="Treni in viaggio in questo momento">
-                    Caricamento... ⏳
+                    <span data-i18n="loading">Caricamento...</span> ⏳
                 </span>
+                <button id="lang-toggle" title="Change Language">🇬🇧 EN</button>
                 <button id="theme-toggle" title="Cambia tema">🌙</button>
             </div>
         </div>
     </header>
 
     <div id="news-ticker" class="ticker hidden">
-        <div class="ticker-label">NEWS LIVE</div>
+        <div class="ticker-label" data-i18n="news_live">NEWS LIVE</div>
         <div class="ticker-track">
-            <div id="news-content" class="ticker-content">
-                Caricamento notizie dalla rete ferroviaria...
+            <div id="news-content" class="ticker-content" data-i18n="loading_news">
+                Caricamento notizie...
             </div>
         </div>
     </div>
 
     <main>
         <section class="search-section">
-            <h2>Cerca Stazione</h2>
+            <h2 data-i18n="search_station">Cerca Stazione</h2>
             <div class="input-container">
-                <input type="text" id="station-input" placeholder="Es. Milano Centrale..." autocomplete="off">
+                <input type="text" id="station-input" data-i18n-placeholder="placeholder_station" placeholder="Es. Milano Centrale..." autocomplete="off">
                 <ul id="autocomplete-results" class="hidden"></ul>
             </div>
 
             <div id="search-history" class="search-history"></div>
 
             <div class="alert-settings">
-                <label for="delay-threshold">Avvisami se il ritardo supera:</label>
+                <label for="delay-threshold" data-i18n="delay_alert">Avvisami se il ritardo supera:</label>
                 <select id="delay-threshold">
-                    <option value="5">5 minuti</option>
-                    <option value="10" selected>10 minuti</option>
-                    <option value="20">20 minuti</option>
-                    <option value="30">30 minuti</option>
+                    <option value="5">5 min</option>
+                    <option value="10" selected>10 min</option>
+                    <option value="20">20 min</option>
+                    <option value="30">30 min</option>
                 </select>
             </div>
         </section>
 
         <section class="search-section train-search-section">
-            <h2>Cerca Treno Diretto</h2>
+            <h2 data-i18n="search_train">Cerca Treno Diretto</h2>
             <div class="input-container d-flex">
-                <input type="number" id="train-number-input" placeholder="Es. 9650..." autocomplete="off">
-                <button id="search-train-btn" class="action-btn">Cerca Percorso</button>
+                <input type="number" id="train-number-input" data-i18n-placeholder="placeholder_train" placeholder="Es. 9650..." autocomplete="off">
+                <button id="search-train-btn" class="action-btn" data-i18n="btn_search_path">Cerca Percorso</button>
             </div>
         </section>
             
         <section class="search-section weather-search-section">
-            <h2>Meteo Città</h2>
+            <h2 data-i18n="weather_city">Meteo Città</h2>
             <div class="input-container">
                 <div class="d-flex">
-                    <input type="text" id="weather-input" placeholder="Es. Ceggia, Milano, Roma..." autocomplete="off">
-                    <button id="search-weather-btn" class="action-btn">Cerca Meteo</button>
+                    <input type="text" id="weather-input" data-i18n-placeholder="placeholder_weather" placeholder="Es. Ceggia, Milano..." autocomplete="off">
+                    <button id="search-weather-btn" class="action-btn" data-i18n="btn_search_weather">Cerca Meteo</button>
                 </div>
                 <ul id="weather-autocomplete-results" class="hidden"></ul>
             </div>
@@ -82,8 +81,8 @@
             <h2 id="station-name">Nome Stazione</h2>
             
             <div class="board-controls">
-                <button id="btn-partenze" class="active">Partenze</button>
-                <button id="btn-arrivi">Arrivi</button>
+                <button id="btn-partenze" class="active" data-i18n="departures">Partenze</button>
+                <button id="btn-arrivi" data-i18n="arrivals">Arrivi</button>
             </div>
             
             <div class="table-container">
@@ -95,7 +94,7 @@
     <div id="train-modal" class="modal hidden">
         <div class="modal-content">
             <span id="close-modal" class="close-btn">&times;</span>
-            <h2 id="modal-title">Dettaglio Treno</h2>
+            <h2 id="modal-title" data-i18n="train_detail">Dettaglio Treno</h2>
             <div id="modal-info" class="modal-info"></div>
             <ul id="fermate-list" class="timeline"></ul>
         </div>
