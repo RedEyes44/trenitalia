@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiveTreni 🚆</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <header>
+        <div class="header-content">
+            <h1>LiveTreni 🚆</h1>
+            
+            <div class="header-actions">
+                <span id="train-counter" class="train-counter" title="Treni in viaggio in questo momento">
+                    Caricamento... ⏳
+                </span>
+                <button id="theme-toggle" title="Cambia tema">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <div id="news-ticker" class="ticker hidden">
+        <div class="ticker-label">NEWS LIVE</div>
+        <div class="ticker-track">
+            <div id="news-content" class="ticker-content">
+                Caricamento notizie dalla rete ferroviaria...
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="search-section">
+            <h2>Cerca Stazione</h2>
+            <div class="input-container">
+                <input type="text" id="station-input" placeholder="Es. Milano Centrale..." autocomplete="off">
+                <ul id="autocomplete-results" class="hidden"></ul>
+            </div>
+
+            <div id="search-history" class="search-history"></div>
+
+            <div class="alert-settings">
+                <label for="delay-threshold">Avvisami se il ritardo supera:</label>
+                <select id="delay-threshold">
+                    <option value="5">5 minuti</option>
+                    <option value="10" selected>10 minuti</option>
+                    <option value="20">20 minuti</option>
+                    <option value="30">30 minuti</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="search-section train-search-section">
+            <h2>Cerca Treno Diretto</h2>
+            <div class="input-container d-flex">
+                <input type="number" id="train-number-input" placeholder="Es. 9650..." autocomplete="off">
+                <button id="search-train-btn" class="action-btn">Cerca Percorso</button>
+            </div>
+        </section>
+            
+        <section class="search-section weather-search-section">
+            <h2>Meteo Città</h2>
+            <div class="input-container">
+                <div class="d-flex">
+                    <input type="text" id="weather-input" placeholder="Es. Ceggia, Milano, Roma..." autocomplete="off">
+                    <button id="search-weather-btn" class="action-btn">Cerca Meteo</button>
+                </div>
+                <ul id="weather-autocomplete-results" class="hidden"></ul>
+            </div>
+            
+            <div id="weather-history" class="search-history"></div>
+
+            <div id="weather-card" class="weather-card hidden" style="margin-top: 1.5rem; margin-bottom: 0;">
+                <div id="weather-content"></div>
+            </div>
+        </section>
+
+        <section id="station-board" class="hidden">
+            <h2 id="station-name">Nome Stazione</h2>
+            
+            <div class="board-controls">
+                <button id="btn-partenze" class="active">Partenze</button>
+                <button id="btn-arrivi">Arrivi</button>
+            </div>
+            
+            <div class="table-container">
+                <ul id="train-list"></ul>
+            </div>
+        </section>
+    </main>
+
+    <div id="train-modal" class="modal hidden">
+        <div class="modal-content">
+            <span id="close-modal" class="close-btn">&times;</span>
+            <h2 id="modal-title">Dettaglio Treno</h2>
+            <div id="modal-info" class="modal-info"></div>
+            <ul id="fermate-list" class="timeline"></ul>
+        </div>
+    </div>
+
+    <script src="app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,738 @@
+/* ============================================================
+   LIVETRENI — CSS (Stile Moderno/Industriale)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap');
+
+/* --- VARIABILI TEMA CHIARO --- */
+:root {
+    --bg:           #f0ede8;
+    --bg2:          #e8e4de;
+    --surface:      #ffffff;
+    --surface2:     #f7f5f2;
+    --border:       #d8d3cc;
+    --text:         #1a1510;
+    --text2:        #5a5248;
+    --text3:        #8a837a;
+    --accent:       #c8001a;
+    --accent2:      #e8001e;
+    --accent-light: #fff0f1;
+    --green:        #1a7a3c;
+    --green-light:  #e8f7ed;
+    --amber:        #b86000;
+    --amber-light:  #fff5e0;
+    --shadow:       0 2px 8px rgba(0,0,0,0.08);
+    --shadow-lg:    0 8px 32px rgba(0,0,0,0.14);
+    --radius:       10px;
+    --radius-lg:    16px;
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body:    'Barlow', sans-serif;
+}
+
+/* --- VARIABILI TEMA SCURO --- */
+body.dark-theme {
+    --bg:           #111010;
+    --bg2:          #181616;
+    --surface:      #1e1c1c;
+    --surface2:     #252222;
+    --border:       #2e2b2b;
+    --text:         #f0ede8;
+    --text2:        #b0aaa5;
+    --text3:        #6a6460;
+    --accent:       #ff2d42;
+    --accent2:      #ff4455;
+    --accent-light: #2a0a0e;
+    --green:        #2dbb60;
+    --green-light:  #0a1f12;
+    --amber:        #f0a030;
+    --amber-light:  #1f1500;
+    --shadow:       0 2px 8px rgba(0,0,0,0.4);
+    --shadow-lg:    0 8px 32px rgba(0,0,0,0.6);
+}
+
+/* --- RESET & BODY --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+    overflow-x: hidden;
+}
+
+/* Classi di utilità */
+.hidden { display: none !important; }
+
+/* --- HEADER --- */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: var(--accent);
+    color: #fff;
+    padding: 1rem;
+    box-shadow: 0 2px 12px rgba(200,0,26,0.35);
+}
+
+.header-content {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    margin: 0;
+}
+
+/* Contatore Live */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* --- NEWS TICKER SCORREVOLE --- */
+.ticker {
+    background: #1a1510;
+    color: #f0ede8;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--accent);
+}
+
+body.dark-theme .ticker {
+    background: var(--surface);
+    color: var(--text);
+}
+
+.ticker-label {
+    flex-shrink: 0;
+    background: var(--accent);
+    color: #fff;
+    padding: 0 1rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    z-index: 2;
+}
+
+.ticker-track {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+}
+
+.ticker-content {
+    position: absolute;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: 100%;
+    animation: ticker-scroll 40s linear infinite; 
+}
+
+@keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-100%); }
+}
+
+.train-counter {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 0.3rem 0.75rem;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.live-dot {
+    width: 8px; height: 8px;
+    background: #6fff9e;
+    border-radius: 50%;
+    color: transparent;
+    animation: pulse-dot 1.5s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.7); }
+}
+
+#theme-toggle {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    width: 38px; height: 38px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.15s;
+}
+
+#theme-toggle:hover { background: rgba(255,255,255,0.28); transform: scale(1.08); }
+
+/* --- MAIN LAYOUT --- */
+main {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem 4rem;
+}
+
+/* --- SEZIONI GENERALI --- */
+.search-section, #station-board {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    animation: fade-up 0.4s ease both;
+}
+
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+}
+
+/* --- CAMPI DI INPUT --- */
+.input-container { position: relative; width: 100%; }
+
+input {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--text);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(200,0,26,0.12), var(--shadow-lg);
+}
+
+/* --- AUTOCOMPLETAMENTO STAZIONI E METEO --- */
+#autocomplete-results, 
+#weather-autocomplete-results {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0; right: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 50;
+}
+
+#autocomplete-results li, 
+#weather-autocomplete-results li {
+    padding: 0.8rem 1.2rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+}
+
+#autocomplete-results li::before {
+    content: '📍';
+    margin-right: 10px;
+    font-size: 0.85rem;
+}
+
+/* Icona diversa per la tendina del meteo */
+#weather-autocomplete-results li::before {
+    content: '🌍';
+    margin-right: 10px;
+    font-size: 0.85rem;
+}
+
+#autocomplete-results li:last-child,
+#weather-autocomplete-results li:last-child { border-bottom: none; }
+
+#autocomplete-results li:hover,
+#weather-autocomplete-results li:hover { background: var(--bg2); }
+
+/* --- CRONOLOGIA (Stile Chips) --- */
+.search-history {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.2rem;
+}
+
+.history-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0.4rem 0.8rem;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.history-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-light);
+}
+
+/* --- IMPOSTAZIONI RITARDO --- */
+.alert-settings {
+    margin-top: 1.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text2);
+}
+
+#delay-threshold {
+    padding: 0.3rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    outline: none;
+}
+
+/* --- RICERCHE SECONDARIE --- */
+.train-search-section, .weather-search-section { margin-top: 1rem; }
+.d-flex { display: flex; gap: 10px; width: 100%; }
+
+.action-btn {
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    padding: 0 1.5rem;
+    border-radius: var(--radius-lg);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+}
+
+.action-btn:hover { background: var(--accent); color: white; }
+.action-btn:active { transform: scale(0.96); }
+
+/* --- BOTTONI PARTENZE/ARRIVI --- */
+.board-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.board-controls button {
+    flex: 1;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.board-controls button.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(200,0,26,0.3);
+}
+
+.board-controls button:not(.active):hover {
+    background: var(--bg2);
+    color: var(--text);
+}
+
+/* --- LISTA TRENI --- */
+#train-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.train-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.train-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent);
+}
+
+.train-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.train-info strong {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.destinazione {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text3);
+}
+
+.train-details {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.orario {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+.binario {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text2);
+}
+
+/* BADGES (Ritardo) */
+.badge {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+}
+
+.ritardo-no {
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.ritardo-si {
+    background: var(--accent-light);
+    color: var(--accent);
+    animation: blink-badge 1.5s ease-in-out infinite;
+}
+
+@keyframes blink-badge {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.6; }
+}
+
+/* --- MODALE --- */
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fade-in 0.2s ease;
+}
+
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+.modal-content {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 520px;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: var(--shadow-lg), 0 0 0 1px var(--border);
+    animation: modal-in 0.25s ease;
+}
+
+@keyframes modal-in {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px; right: 15px;
+    background: var(--bg2);
+    border: none;
+    color: var(--text);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.close-btn:hover { background: var(--accent); color: white; }
+
+#modal-title {
+    background: var(--text);
+    color: var(--bg);
+    padding: 1.2rem 1.5rem;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+}
+
+.modal-info {
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text2);
+}
+
+.modal-info strong { color: var(--text); }
+
+/* --- TIMELINE FERMATE --- */
+.timeline {
+    list-style: none;
+    padding: 1.5rem;
+    margin: 0;
+    position: relative;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 1.5rem; bottom: 1.5rem; left: 33px;
+    width: 2px;
+    background: var(--border);
+}
+
+.fermata-item {
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 1.2rem;
+}
+
+.fermata-item::before {
+    content: '';
+    position: absolute;
+    left: 14px; top: 6px;
+    width: 12px; height: 12px;
+    background: var(--surface);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.fermata-item strong {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text);
+}
+
+.fermata-item small {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text3);
+    margin-top: 0.2rem;
+}
+
+.fermata-passata { opacity: 0.5; }
+.fermata-passata::before { background: var(--accent); }
+
+/* EVIDENZIAZIONE ULTIMA FERMATA */
+.fermata-corrente { opacity: 1 !important; }
+.fermata-corrente::before {
+    background: var(--accent) !important;
+    box-shadow: 0 0 12px var(--accent);
+    transform: scale(1.4);
+    transition: all 0.3s;
+}
+.fermata-corrente strong {
+    color: var(--accent);
+    font-size: 1.15rem;
+}
+
+/* --- TOAST NOTIFICHE --- */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background: var(--text);
+    color: var(--bg);
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    border-left: 5px solid var(--accent);
+    animation: slideIn 0.3s ease-out forwards;
+    max-width: 320px;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to   { transform: translateX(0); opacity: 1; }
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 600px) {
+    .train-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+    .train-details {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .d-flex { flex-direction: column; }
+    .action-btn { padding: 1rem; }
+}
+
+/* --- METEO CARD --- */
+.weather-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    box-shadow: var(--shadow);
+    animation: fade-up 0.3s ease both;
+}
+
+#weather-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.weather-main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.weather-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.weather-temp {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.weather-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.weather-desc {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    color: var(--text2);
+}
+
+.weather-details {
+    font-size: 0.8rem;
+    color: var(--text3);
+}
