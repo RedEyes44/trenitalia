@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiveTreni Pro 🚆</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="mesh-background"></div>
+    <div id="toast-container" class="toast-container"></div>
+
+    <header>
+        <div class="header-content">
+            <h1>LiveTreni 🚆</h1>
+            <div class="header-actions">
+                <span id="train-counter" class="train-counter">
+                    <span data-i18n="loading">Caricamento...</span> ⏳
+                </span>
+                <button id="lang-toggle">🇬🇧 EN</button>
+                <button id="theme-toggle">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <div id="news-ticker" class="ticker hidden">
+        <div class="ticker-label" data-i18n="news_live">NEWS LIVE</div>
+        <div class="ticker-track">
+            <div id="news-content" class="ticker-content" data-i18n="loading_news">Caricamento notizie...</div>
+        </div>
+    </div>
+
+    <main>
+        <section class="search-section">
+            <h2 data-i18n="search_station">Cerca Stazione</h2>
+            <div class="input-container">
+                <input type="text" id="station-input" data-i18n-placeholder="placeholder_station" placeholder="Es. Milano Centrale..." autocomplete="off">
+                <ul id="autocomplete-results" class="hidden"></ul>
+            </div>
+            <div id="search-history" class="search-history"></div>
+
+            <div class="alert-settings">
+                <label data-i18n="delay_alert">Avvisami se il ritardo supera:</label>
+                <div class="delay-chips">
+                    <button class="delay-chip" data-value="5">5 min</button>
+                    <button class="delay-chip active" data-value="10">10 min</button>
+                    <button class="delay-chip" data-value="20">20 min</button>
+                    <button class="delay-chip" data-value="30">30 min</button>
+                </div>
+                <input type="hidden" id="delay-threshold" value="10">
+            </div>
+        </section>
+
+        <section class="search-section train-search-section">
+            <h2 data-i18n="search_train">Cerca Treno Diretto</h2>
+            <div class="input-container d-flex">
+                <input type="number" id="train-number-input" data-i18n-placeholder="placeholder_train" placeholder="Es. 9650..." autocomplete="off">
+                <button id="search-train-btn" class="action-btn" data-i18n="btn_search_path">Cerca</button>
+            </div>
+        </section>
+            
+        <section class="search-section weather-search-section">
+            <h2 data-i18n="weather_city">Meteo Città</h2>
+            <div class="input-container">
+                <div class="d-flex">
+                    <input type="text" id="weather-input" data-i18n-placeholder="placeholder_weather" placeholder="Es. Ceggia, Milano..." autocomplete="off">
+                    <button id="search-weather-btn" class="action-btn" data-i18n="btn_search_weather">Meteo</button>
+                </div>
+                <ul id="weather-autocomplete-results" class="hidden"></ul>
+            </div>
+            <div id="weather-history" class="search-history"></div>
+            <div id="weather-card" class="weather-card hidden" style="margin-top: 1.5rem; margin-bottom: 0;">
+                <div id="weather-content"></div>
+            </div>
+        </section>
+
+        <section id="map-section" class="search-section">
+            <h2 data-i18n="map_title">Mappa Radar e Percorsi</h2>
+            <div class="input-container d-flex" style="margin-bottom: 1.5rem;">
+                <input type="text" id="map-search-input" data-i18n-placeholder="placeholder_map" placeholder="Es. Firenze, Napoli..." autocomplete="off">
+                <button id="search-map-btn" class="action-btn" data-i18n="btn_search_map">Cerca</button>
+            </div>
+            <div id="map"></div>
+        </section>
+
+        <section id="station-board" class="hidden">
+            <h2 id="station-name">Nome Stazione</h2>
+            <div class="board-controls">
+                <button id="btn-partenze" class="active" data-i18n="departures">Partenze</button>
+                <button id="btn-arrivi" data-i18n="arrivals">Arrivi</button>
+            </div>
+            <div class="table-container">
+                <ul id="train-list"></ul>
+            </div>
+        </section>
+    </main>
+
+    <div id="train-modal" class="modal hidden">
+        <div class="modal-content">
+            <span id="close-modal" class="close-btn">×</span>
+            <h2 id="modal-title" data-i18n="train_detail">Dettaglio Treno</h2>
+            <div id="modal-info" class="modal-info"></div>
+            <ul id="fermate-list" class="timeline"></ul>
+        </div>
+    </div>
+
+    <script src="app.js" defer></script>
+</body>
+</html>
